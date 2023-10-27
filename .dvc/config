@@ -1,0 +1,6 @@
+[core]
+    remote = myremote
+['remote "myremote"']
+    connection_string = DefaultEndpointsProtocol=https;AccountName=djshadows;AccountKey=s3t1p2RzNTFZn9+J0TpnEOZxzld7SaM2d565UaU49CiqFntGp5wyXTghwSxAyXVayjRCsTAkp0FK+AStoLq/tw==;EndpointSuffix=core.windows.net
+    url = azure://djshadows.blob.core.windows.net/housing1
+    version_aware = true
