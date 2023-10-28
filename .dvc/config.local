@@ -1,0 +1,3 @@
+['remote "myremote"']
+    connection_string = DefaultEndpointsProtocol=https;AccountName=djshadows;AccountKey=s3t1p2RzNTFZn9+J0TpnEOZxzld7SaM2d565UaU49CiqFntGp5wyXTghwSxAyXVayjRCsTAkp0FK+AStoLq/tw==;EndpointSuffix=core.windows.net
+    sas_token = ?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-10-28T07:57:07Z&st=2023-10-27T23:57:07Z&spr=https&sig=R7IO1IatAX6pU3uoBfXpGy8Pxa3Z3pXh4puIatrbzEc%3D
