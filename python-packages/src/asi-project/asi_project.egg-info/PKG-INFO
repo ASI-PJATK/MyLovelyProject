@@ -1,0 +1,5 @@
+Metadata-Version: 2.1
+Name: asi-project
+Version: 0.0.1
+Summary: Python package for asi project
+Requires-Python: >=3.6
