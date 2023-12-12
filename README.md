@@ -4,6 +4,7 @@
 
 This is your new Kedro project, which was generated using `kedro 0.18.14`.
 - custom package can be installed via `pip install lovely-pancake`
+- hosing.csv file stored in Azure Blob Storage. Use `dvc pull` to get it (sas token will get disabled on 01/04/2024)
   
 Take a look at the [Kedro documentation](https://docs.kedro.org) to get started.
 
