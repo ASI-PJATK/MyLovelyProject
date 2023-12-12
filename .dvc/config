@@ -4,3 +4,4 @@
     url = azure://housing1/
     version_aware = true
     account_name = djshadows
+    sas_token =sp=r&st=2023-12-12T23:14:42Z&se=2024-04-01T06:14:42Z&sv=2022-11-02&sr=c&sig=6GMKytXjKWhdNfeLO6R8U72MXHc4jk3XxuB9Qlrzt3U%3D
