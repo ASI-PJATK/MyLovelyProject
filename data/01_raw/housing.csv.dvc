@@ -3,3 +3,7 @@ outs:
   size: 1423529
   hash: md5
   path: housing.csv
+  cloud:
+    myremote:
+      etag: '"0x8DBFB6539116A2B"'
+      version_id: '2023-12-12T22:53:57.0778427Z'
