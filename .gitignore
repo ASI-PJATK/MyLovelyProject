@@ -10,11 +10,11 @@ conf/local/**
 conf/**/*credentials*
 
 # ignore everything in the following folders
-data/**
+#data/**
 logs/**
 
 # except their sub-folders
-!data/**/
+#!data/**/
 !logs/**/
 
 # also keep all .gitkeep files
@@ -157,3 +157,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.dvc/config.local
