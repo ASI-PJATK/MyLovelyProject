@@ -3,7 +3,8 @@
 ## Overview
 
 This is your new Kedro project, which was generated using `kedro 0.18.14`.
-
+- custom package can be installed via `pip install lovely-pancake`
+  
 Take a look at the [Kedro documentation](https://docs.kedro.org) to get started.
 
 ## Rules and guidelines
