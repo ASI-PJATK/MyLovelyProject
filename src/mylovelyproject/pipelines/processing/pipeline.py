@@ -58,5 +58,41 @@ def create_pipeline(**kwargs) -> Pipeline:
                 inputs="predictions",
                 outputs="predictions_df",
                 name="convert_predictions_node"
-        ),
+            ),
+            node(
+                func=pycaret_get_data,
+                inputs="housing",
+                outputs="housing_pycaret_df",
+                name="pycaret_get_data_node"
+            ),
+            node(
+                func=pycaret_model_setup(
+                inputs="housing_pycaret_df",
+                outputs="model_setup",
+                name="pycaret_model_setup_node"
+            ),
+            node(
+                func=pycaret_best_model,
+                inputs="model_setup",
+                outputs="best_model",
+                name="pycaret_best_model_node"
+            ),
+            node(
+                func=pycaret_predict_output,
+                inputs=["model_setup", "best_model", "housing_pycaret_df"],
+                outputs="pycaret_prediciton",
+                name="pycaret_predict_output_node"
+            ),
+            node(
+                func=pycaret_save_model,
+                inputs=["model_setup", "best_model"],
+                outputs="dt_model",
+                name="pycaret_save_model_node"
+            ),
+            node(
+                func=pycaret_score_model,
+                inputs="model_setup",
+                outputs="pycaret_predicitons",
+                name="pycaret_score_model_node"
+            ),
         ])

@@ -13,6 +13,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.linear_model import LinearRegression
 from sklearn.base import BaseEstimator, TransformerMixin
+from pycaret.datasets import get_data
+from pycaret.classification import setup
 
 
 def load_housing_data(housing):
@@ -112,3 +114,29 @@ def predict(model, features):
 def predictions_to_dataframe(predictions):
     df = pd.DataFrame(predictions, columns=['Predicted_Value'])
     return df
+
+#PyCaret nodes - can be moved in the future    
+def pycaret_get_data(housing):
+    df = get_data(housing) 
+    return df
+    
+def pycaret_model_setup(df)
+    model_setup = setup(df, target="ocean_proximity", session_id=111)
+    return model_setup
+    
+def pycaret_best_model(model_setup)
+    best_model = model_setup.compare_models(turbo=True)
+    return best_model
+    
+def pycaret_predict_output(model_setup, best_model, df)
+    output_df = model_setup.predict_model(best_model, data=df)
+    return pycaret_prediciton
+    
+def pycaret_saving_model(model_setup, best_model)
+    saved_model, model_path = model_setup.save_model(best_model, "../../../../data/06_models/dt-model")
+    return save_model
+    
+def pycaret_score_model(model_setup)
+    best_model = model_setup.load_model("dt-model")
+    predictions = model_setup.predict_model(best_model)
+    return predictions
