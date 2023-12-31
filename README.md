@@ -10,7 +10,7 @@
 - activate virtual env `conda activate my_project_env` 
 - custom package can be installed via `pip install lovely-pancake`
 - hosing.csv file stored in Azure Blob Storage. Use `dvc pull` to get it (sas token will get disabled on 01/04/2024)
-  
+- execute the pipeline `kedro run` 
 Take a look at the [Kedro documentation](https://docs.kedro.org) to get started.
 
 ## Rules and guidelines
