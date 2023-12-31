@@ -1,8 +1,13 @@
-# mylovelyproject
+# My Lovely Project
 
-## Overview
+## Setting Up the Project Environment
+### Prerequisites
 
-This is your new Kedro project, which was generated using `kedro 0.18.14`.
+- **Conda**: Ensure that you have Conda installed on your system. If you do not have Conda installed, you can download and install Miniconda (a minimal installer for Conda) from [here](https://docs.conda.io/en/latest/miniconda.html).
+
+## Setting up the enviroment
+- create the conda environment with required dependencies `conda env create -f environment.yml`
+- activate virtual env `conda activate my_project_env` 
 - custom package can be installed via `pip install lovely-pancake`
 - hosing.csv file stored in Azure Blob Storage. Use `dvc pull` to get it (sas token will get disabled on 01/04/2024)
   
@@ -17,15 +22,6 @@ In order to get the best out of the template:
 * Don't commit data to your repository
 * Don't commit any credentials or your local configuration to your repository. Keep all your credentials and local configuration in `conf/local/`
 
-## How to install dependencies
-
-Declare any dependencies in `src/requirements.txt` for `pip` installation and `src/environment.yml` for `conda` installation.
-
-To install them, run:
-
-```
-pip install -r src/requirements.txt
-```
 
 ## How to run your Kedro pipeline
 
