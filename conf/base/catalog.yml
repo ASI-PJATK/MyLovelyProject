@@ -3,9 +3,9 @@
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://docs.kedro.org/en/stable/data/data_catalog.html
 
-housingdata:
+housing:
   type: pandas.CSVDataSet
-  filepath: data/01_raw/housingdata.csv
+  filepath: data/01_raw/housing.csv
 
 
 trained_model:
