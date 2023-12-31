@@ -42,14 +42,20 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
 
             node(
-                func=train_model,
+                func=train_model_with_pycaret,  # train_model for normal train
                 inputs=["housing_prepared", "housing_labels"],
-                outputs="trained_model",
-                name="train_model_node"
+                outputs="best_model",  # change it to trained_model in case of normal train
+                name="train_model_with_pycaret_node"  # train_model_node for normal train
             ),
             node(
-                func=predict,
-                inputs=["trained_model", "housing_prepared"],  # predicting on the training set
+                func=optimize_model_hyperparameters,
+                inputs="best_model",
+                outputs="tuned_model",
+                name="optimize_hyperparameters_node"
+            ),
+            node(
+                func=predict_pycaret,  # predict for normal train
+                inputs=["tuned_model", "housing_prepared"],  # 'best_model' for normal train
                 outputs="predictions",
                 name="predict_node"
             ),
