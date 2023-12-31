@@ -23,6 +23,6 @@ dependencies:
       - pytest-cov~=3.0
       - pytest-mock<2.0,>=1.7.1
       - pytest~=7.2
-      - tra itlets<5.10.0
+      - traitlets<5.10.0
       - pycaret>=3.0
       # other pip dependencies as needed
