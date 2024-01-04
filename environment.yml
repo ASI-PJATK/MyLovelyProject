@@ -25,4 +25,6 @@ dependencies:
       - pytest~=7.2
       - traitlets<5.10.0
       - pycaret>=3.0
+      - fastapi
+      - uvicorn
       # other pip dependencies as needed
