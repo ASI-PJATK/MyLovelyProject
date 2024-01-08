@@ -1,31 +1,65 @@
-import pickle
-from sklearn.linear_model import LinearRegression
-import numpy as np
-
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
 from fastapi import FastAPI
+import joblib
+
 app = FastAPI()
 
-@app.get("/models")
-async def model():
+# Load your trained model (adjust the file path as needed)
+model = joblib.load("/Users/ahmetduzduran/Projects/PJATK/7thSemester/ASI/project/MyLovelyProject/data/06_models/tuned_model.pkl")
 
-    return {"Models used by us": ["trained_model"]}
+# Define a Pydantic model for input data validation
+from pydantic import BaseModel
+
+
+class InputData(BaseModel):
+    # Define your input data structure here
+    longitude: float
+    latitude: float
+    housing_median_age: float
+    total_rooms: float
+    total_bedrooms: float
+    population: float
+    households: float
+    median_income: float
+
+
+import pandas as pd
+
+
+def endpoint_prepare_data(data):
+    # Define numerical and categorical columns
+    num_attribs = ["longitude", "latitude", "housing_median_age",
+                   "total_rooms", "total_bedrooms", "population",
+                   "households", "median_income"]
+
+    #  cat_attribs = ["ocean_proximity"]
+
+    num_pipeline = Pipeline([
+        ('imputer', SimpleImputer(strategy="median")),
+        ('std_scaler', StandardScaler()),
+    ])
+
+    # Full pipeline
+    full_pipeline = ColumnTransformer([
+        ("num", num_pipeline, num_attribs),
+        #      ("cat", OneHotEncoder, cat_attribs),
+    ])
+
+    return full_pipeline.fit_transform(data)
+
 
 @app.post("/predict")
-async def prediction(model_name: str, longitude: float,latitude: float,housing_median_age: float,total_rooms: float,total_bedrooms: float,population: float,households: float,median_income: float,median_house_value: float,ocean_proximity: object,longitud: float,latitud: float,housing_median_ag: float,total_room: float,total_bedroom: float,populatio: float,household: float,median_incom: float,median_house_valu: float):
-    
-    with open('../../data/06_models/'+str(model_name) +'.pkl', 'rb') as file:
-        model = pickle.load(file)
-        
-    features = [longitude,latitude,housing_median_age,total_rooms,total_bedrooms,population,households,median_income,median_house_value,ocean_proximity,longitud,latitud,housing_median_ag,total_room,total_bedroom,populatio,household,median_incom,median_house_valu]
-    
-    features = np.asarray(features,dtype=np.float64)
-    
-    features = features.reshape(1, -1)
-    
-    prediction = model.predict(features)
-    
-    with open('outputs/'+ str(model_name) +'_result_of_prediction.csv', 'wb') as output_file:
-        output_file.write(features)
-        output_file.write(prediction)
-    
-    return {"This is the prediction:": str(prediction)}
+async def get_prediction(input_data: InputData):
+    # Convert input data to a DataFrame (or the required format)
+    housing = pd.DataFrame([input_data.dict()])
+
+    print(housing.values)
+    prepared_housing = endpoint_prepare_data(housing)
+    # print(prepared_housing)
+    prediction = model.predict(prepared_housing)
+
+    # Return prediction
+    return {"prediction": prediction.tolist()}
