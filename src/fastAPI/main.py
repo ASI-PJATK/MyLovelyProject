@@ -2,13 +2,17 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import joblib
+import os
+import pandas as pd
 
 app = FastAPI()
 
 # Load your trained model (adjust the file path as needed)
-model = joblib.load("/Users/ahmetduzduran/Projects/PJATK/7thSemester/ASI/project/MyLovelyProject/data/06_models/tuned_model.pkl")
+model = joblib.load("../../data/06_models/tuned_model.pkl")
+models_dir = "../../data/06_models/"
+current_model = "tuned_model"
 
 # Define a Pydantic model for input data validation
 from pydantic import BaseModel
@@ -24,9 +28,6 @@ class InputData(BaseModel):
     population: float
     households: float
     median_income: float
-
-
-import pandas as pd
 
 
 def endpoint_prepare_data(data):
@@ -59,7 +60,32 @@ async def get_prediction(input_data: InputData):
     print(housing.values)
     prepared_housing = endpoint_prepare_data(housing)
     # print(prepared_housing)
+    string = current_model + ".pkl"
+    model = joblib.load("../../data/06_models/" + current_model + ".pkl")
+
     prediction = model.predict(prepared_housing)
 
     # Return prediction
-    return {"prediction": prediction.tolist()}
+    return {"Selected model:" + current_model + "\nprediction": prediction.tolist()}
+
+
+@app.get("/models")
+async def list_models():
+    # List all models in the models directory
+    models = os.listdir(models_dir)
+    return {"models": models}
+
+
+class ModelName(BaseModel):
+    model_name: str
+
+
+@app.post("/models/select")
+async def select_model(model_name: ModelName):
+    global current_model
+    model_path = os.path.join(models_dir, model_name.model_name)
+    if not os.path.exists(model_path):
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    current_model = joblib.load(model_path)
+    return {"message": f"Model {model_name.model_name} selected"}
