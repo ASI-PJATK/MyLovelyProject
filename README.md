@@ -9,6 +9,7 @@
 - create the conda environment with required dependencies `conda env create -f environment.yml`
 - activate virtual env `conda activate my_project_env` 
 - custom package can be installed via `pip install lovely-pancake`
+- for easier building and runing of docker container`pip install kedro docker`
 - hosing.csv file stored in Azure Blob Storage. Use `dvc pull` to get it (sas token will get disabled on 01/04/2024)
 - execute the pipeline `kedro run` 
 Take a look at the [Kedro documentation](https://docs.kedro.org) to get started.
@@ -22,6 +23,13 @@ In order to get the best out of the template:
 * Don't commit data to your repository
 * Don't commit any credentials or your local configuration to your repository. Keep all your credentials and local configuration in `conf/local/`
 
+## How to run Docker container
+
+You can run your container with kedro docker:
+
+```
+kedro docker run
+```
 
 ## How to run your Kedro pipeline
 
