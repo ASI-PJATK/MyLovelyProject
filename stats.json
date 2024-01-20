@@ -1,0 +1,1 @@
+{"housing": {"rows": 20640, "columns": 10, "file_size": 1423529}, "raw_housing_data": {"rows": 20640, "columns": 10}, "explored_housing_data": {"rows": 20640, "columns": 10}, "housing_feature_df": {"rows": 16512, "columns": 8, "file_size": 2603242}, "predictions": {"rows": 4128, "columns": 9}, "predictions_df": {"rows": 4128, "columns": 1, "file_size": 12400}}

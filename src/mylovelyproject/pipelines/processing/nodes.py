@@ -10,9 +10,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.linear_model import LinearRegression
-from sklearn.base import BaseEstimator, TransformerMixin
 from pycaret.regression import setup, compare_models, predict_model, tune_model, save_model, load_model
 import pickle
 
@@ -26,25 +24,6 @@ def explore_housing_data(housing):
     print(housing.info())
     print(housing.ocean_proximity.value_counts())
     return housing
-
-
-# def add_features(housing):
-#     housing["rooms_per_household"] = housing["total_rooms"] / housing["households"]
-#     housing["bedrooms_per_room"] = housing["total_bedrooms"] / housing["total_rooms"]
-#     housing["population_per_household"] = housing["population"] / housing["households"]
-#
-#     return housing
-
-
-# def add_extra_features(X, add_bedrooms_per_room=True):
-#     rooms_per_household = X["total_rooms"] / X["households"]
-#     population_per_household = X["population"] / X["households"]
-#     if add_bedrooms_per_room:
-#         bedrooms_per_room = X["total_bedrooms"] / X["total_rooms"]
-#         return np.c_[X, rooms_per_household, population_per_household, bedrooms_per_room]
-#     else:
-#         return np.c_[X, rooms_per_household, population_per_household]
-
 
 def prepare_data(data,  test_size=0.2, random_state=42):
     # Separate the target variable
@@ -64,9 +43,6 @@ def prepare_data(data,  test_size=0.2, random_state=42):
                    "total_rooms", "total_bedrooms", "population",
                    "households", "median_income"]
 
-    # if add_bedrooms_per_room:
-    #     num_attribs.append("bedrooms_per_room")
-#    cat_attribs = ["ocean_proximity"]
 
     # Numerical pipeline
     num_pipeline = Pipeline([
@@ -77,7 +53,6 @@ def prepare_data(data,  test_size=0.2, random_state=42):
     # Full pipeline
     full_pipeline = ColumnTransformer([
         ("num", num_pipeline, num_attribs),
-#        ("cat", one_hot_encode_ocean_proximity(), cat_attribs),
     ])
 
 
@@ -85,7 +60,7 @@ def prepare_data(data,  test_size=0.2, random_state=42):
     X_train_prepared = full_pipeline.fit_transform(X_train)
     X_test_prepared = full_pipeline.transform(X_test)
 
-    return X_train_prepared, y_train, X_test_prepared, y_test
+    return X_train_prepared, y_train, X_test_prepared, y_test, full_pipeline
 
 
 

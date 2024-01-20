@@ -1,25 +1,23 @@
-from sklearn.pipeline import Pipeline
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 import joblib
-import os
 import pandas as pd
+from joblib import load
+
+preprocessing_pipeline = load('../../data/05_model_input/preprocessing_pipeline.joblib')
 
 app = FastAPI()
 
-# Load your trained model (adjust the file path as needed)
-model = joblib.load("../../data/06_models/tuned_model.pkl")
+# Load your trained model once when the application starts (adjust the file path as needed)
+model_path = "../../data/06_models/best_model.pkl"
+model = joblib.load(model_path)
+current_model_name = ""
+
 models_dir = "../../data/06_models/"
-current_model = "tuned_model"
-
-# Define a Pydantic model for input data validation
-from pydantic import BaseModel
 
 
+# Define the InputData model
 class InputData(BaseModel):
-    # Define your input data structure here
     longitude: float
     latitude: float
     housing_median_age: float
@@ -30,62 +28,50 @@ class InputData(BaseModel):
     median_income: float
 
 
-def endpoint_prepare_data(data):
-    # Define numerical and categorical columns
-    num_attribs = ["longitude", "latitude", "housing_median_age",
-                   "total_rooms", "total_bedrooms", "population",
-                   "households", "median_income"]
-
-    #  cat_attribs = ["ocean_proximity"]
-
-    num_pipeline = Pipeline([
-        ('imputer', SimpleImputer(strategy="median")),
-        ('std_scaler', StandardScaler()),
-    ])
-
-    # Full pipeline
-    full_pipeline = ColumnTransformer([
-        ("num", num_pipeline, num_attribs),
-        #      ("cat", OneHotEncoder, cat_attribs),
-    ])
-
-    return full_pipeline.fit_transform(data)
-
-
 @app.post("/predict")
-async def get_prediction(input_data: InputData):
-    # Convert input data to a DataFrame (or the required format)
-    housing = pd.DataFrame([input_data.dict()])
+def get_prediction(input_data: InputData):
+    try:
+        feature_names = ["longitude", "latitude", "housing_median_age", "total_rooms",
+                         "total_bedrooms", "population", "households", "median_income"]
 
-    print(housing.values)
-    prepared_housing = endpoint_prepare_data(housing)
-    # print(prepared_housing)
-    string = current_model + ".pkl"
-    model = joblib.load("../../data/06_models/" + current_model + ".pkl")
+        # Convert input data to a DataFrame
+        input_df = pd.DataFrame([input_data.dict()], columns=feature_names)
 
-    prediction = model.predict(prepared_housing)
+        # Process the data using the loaded preprocessing pipeline
+        prepared_data = preprocessing_pipeline.transform(input_df)
 
-    # Return prediction
-    return {"Selected model:" + current_model + "\nprediction": prediction.tolist()}
+        # Make a prediction
+        prediction = model.predict(prepared_data)
 
-
-@app.get("/models")
-async def list_models():
-    # List all models in the models directory
-    models = os.listdir(models_dir)
-    return {"models": models}
-
-
-class ModelName(BaseModel):
-    model_name: str
+        # Return the prediction in proper JSON format
+        return {"Selected model": current_model_name, "Prediction": prediction.tolist()}
+    except Exception as e:
+        # Detailed logging for debugging
+        print(f"Error during prediction: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/models/select")
-async def select_model(model_name: ModelName):
-    global current_model
-    model_path = os.path.join(models_dir, model_name.model_name)
-    if not os.path.exists(model_path):
-        raise HTTPException(status_code=404, detail="Model not found")
+import os
+from typing import List
 
-    current_model = joblib.load(model_path)
-    return {"message": f"Model {model_name.model_name} selected"}
+
+@app.get("/models", response_model=List[str])
+def list_models():
+    models = [file for file in os.listdir(models_dir) if file.endswith('.pkl') and file != '.gitkeep']
+    return models
+
+
+@app.post("/select_model")
+def select_model(model_name: str):
+    global model, current_model_name
+    try:
+        if model_name in os.listdir(models_dir) and model_name.endswith('.pkl'):
+            model_path = os.path.join(models_dir, model_name)
+            model = joblib.load(model_path)
+            current_model_name = model_name  # Update the current model name
+            return {"message": f"Model changed to {model_name}"}
+        else:
+            raise HTTPException(status_code=404, detail=f"Model {model_name} not found")
+    except Exception as e:
+        print(f"Error during model selection: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

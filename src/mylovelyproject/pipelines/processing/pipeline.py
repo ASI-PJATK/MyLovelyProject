@@ -23,16 +23,10 @@ def create_pipeline(**kwargs) -> Pipeline:
                 name="explore_housing_data_node"
             ),
 
-            # node(
-            #     func=add_features,
-            #     inputs="explored_housing_data",
-            #     outputs="feature_added_housing",
-            #     name="add_features_node"
-            # ),
             node(
                 func=prepare_data,
                 inputs="explored_housing_data",
-                outputs=["X_train", "y_train", "X_test", "y_test"],
+                outputs=["X_train", "y_train", "X_test", "y_test", "preprocessing_pipeline"],
                 name="prepare_data_node"
             ),
 
