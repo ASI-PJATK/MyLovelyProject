@@ -11,7 +11,45 @@
 - custom package can be installed via `pip install lovely-pancake`
 - hosing.csv file stored in Azure Blob Storage. Use `dvc pull` to get it (sas token will get disabled on 01/04/2024)
 - execute the pipeline `kedro run` 
-Take a look at the [Kedro documentation](https://docs.kedro.org) to get started.
+
+## RestAPI Endpoint
+- navigate to restAPI folder `cd src/fastAPI/`
+- run the restAPI `uvicorn main:app`
+- example endpoint calls :
+```html
+curl -X 'POST' \
+  'http://127.0.0.1:8000/predict' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "longitude": -119.85,
+  "latitude": 36.77,
+  "housing_median_age": 10,
+  "total_rooms": 1000,
+  "total_bedrooms": 200,
+  "population": 500,
+  "households": 180,
+  "median_income": 3.5000
+}'
+
+```
+```html
+curl -X 'POST' \
+  'http://127.0.0.1:8000/predict' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "longitude": -117.03,
+  "latitude": 32.71,
+  "housing_median_age": 22,
+  "total_rooms": 4500,
+  "total_bedrooms": 700,
+  "population": 2300,
+  "households": 600,
+  "median_income": 6.3000
+}'
+```
+
 
 ## Rules and guidelines
 
