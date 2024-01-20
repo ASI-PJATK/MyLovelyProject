@@ -30,3 +30,7 @@ best_model:
 predictions_df:
   type: pandas.CSVDataset
   filepath: data/07_model_output/predictions.csv
+
+preprocessing_pipeline:
+  type: kedro.extras.datasets.pickle.PickleDataSet
+  filepath: data/05_model_input/preprocessing_pipeline.joblib
