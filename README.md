@@ -12,6 +12,17 @@
 - hosing.csv file stored in Azure Blob Storage. Use `dvc pull` to get it (sas token will get disabled on 01/04/2024)
 - execute the pipeline `kedro run` 
 
+## Building and running docker container
+- navigate to main folder of the project
+- use command `docker build -f Dockerfile -t test`
+- if you already build the container use `docker run` instead
+
+## Runing the docker compose
+In main directory of the project
+-  use command `docker compose up --build` when running docer for the first time
+- use command `docker compose up` with docker image already built
+Than to test if everything is working check the fastAPI at `127.0.0.1:8000/docs`
+
 ## RestAPI Endpoint
 - navigate to restAPI folder `cd src/fastAPI/`
 - run the restAPI `uvicorn main:app`
@@ -60,6 +71,13 @@ In order to get the best out of the template:
 * Don't commit data to your repository
 * Don't commit any credentials or your local configuration to your repository. Keep all your credentials and local configuration in `conf/local/`
 
+## How to run Docker container
+
+You can run your container with kedro docker:
+
+```
+kedro docker run
+```
 
 ## How to run your Kedro pipeline
 

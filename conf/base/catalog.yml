@@ -4,11 +4,11 @@
 # Link: https://docs.kedro.org/en/stable/data/data_catalog.html
 
 housing:
-  type: pandas.CSVDataset
+  type: pandas.CSVDataSet
   filepath: data/01_raw/housing.csv
 
 housing_feature_df:
-  type: pandas.CSVDataset
+  type: pandas.CSVDataSet
   filepath: data/04_feature/housing_feature.csv
 
 trained_model:
@@ -28,7 +28,7 @@ best_model:
   filepath: data/06_models/best_model.pkl
 
 predictions_df:
-  type: pandas.CSVDataset
+  type: pandas.CSVDataSet
   filepath: data/07_model_output/predictions.csv
 
 preprocessing_pipeline:
