@@ -20,6 +20,8 @@ references
 results
 
 # except the following
+!data/05_model_input
+!data/06_models
 !logs/.gitkeep
 !notebooks/.gitkeep
 !references/.gitkeep

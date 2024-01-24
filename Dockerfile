@@ -1,28 +1,16 @@
-ARG BASE_IMAGE=python:3.8.18-alpine
-FROM $BASE_IMAGE as runtime-environment
+FROM python:3.8.18-slim
 
-# install project requirements
-COPY /src/requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache -r /tmp/requirements.txt && rm -f /tmp/requirements.txt
-RUN pip install lovely-pancake
+# install project requirements 
+COPY /src/requirements.txt /docker/
+RUN pip install --no-cache-dir -r /docker/requirements.txt 
+RUN pip install fastapi
+RUN pip install uvicorn
 
-# add kedro user
-ARG KEDRO_UID=999
-ARG KEDRO_GID=0
-RUN groupadd -f -g ${KEDRO_GID} kedro_group && \
-useradd -m -d /home/kedro_docker -s /bin/bash -g ${KEDRO_GID} -u ${KEDRO_UID} kedro_docker
+#first copy things that dont change often
+#than you can copy things that change a lot
+COPY /data/ /docker/data
+COPY /src/ /docker/src
 
-WORKDIR /home/kedro_docker
-USER kedro_docker
+WORKDIR /docker/src/fastAPI
 
-FROM runtime-environment
-
-# copy the whole project except what is in .dockerignore
-ARG KEDRO_UID=999
-ARG KEDRO_GID=0
-COPY --chown=${KEDRO_UID}:${KEDRO_GID} . .
-
-EXPOSE 8888
-
-CMD ["dvc", "pull']
-CMD ["kedro", "run"]
+CMD ["uvicorn", "main:app"]

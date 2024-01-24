@@ -9,9 +9,13 @@
 - create the conda environment with required dependencies `conda env create -f environment.yml`
 - activate virtual env `conda activate my_project_env` 
 - custom package can be installed via `pip install lovely-pancake`
-- for easier building and runing of docker container`pip install kedro docker`
 - hosing.csv file stored in Azure Blob Storage. Use `dvc pull` to get it (sas token will get disabled on 01/04/2024)
 - execute the pipeline `kedro run` 
+
+## Runing the docker compose
+In main directory of the project
+-  use command `docker compose up --build` when running docer for the first time
+- use command `docker compose up` with docker image already built
 
 ## RestAPI Endpoint
 - navigate to restAPI folder `cd src/fastAPI/`
