@@ -14,7 +14,7 @@
 
 ## Building and running docker container
 - navigate to main folder of the project
-- use command `docker build -f Dockerfile -t test`
+- use command `docker build -t my_lovely_pancake .`
 - if you already build the container use `docker run` instead
 
 ## Runing the docker compose
