@@ -1,5 +1,27 @@
 # My Lovely Project
 
+
+## Docker Quickstart
+
+This section provides basic instructions on how to run the application using Docker.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started)
+
+### Running the Application
+
+1. **Build the Docker Image**:
+   ```bash
+   docker build -t sampleapp:v1 .
+
+   docker run -p 8080:80 sampleapp:v1
+   ```
+2. How to open it up ?
+    ```
+    http://localhost:8080/docs 
+    ```
+
 ## Setting Up the Project Environment
 ### Prerequisites
 
