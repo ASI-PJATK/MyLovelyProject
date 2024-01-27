@@ -1,5 +1,27 @@
 # My Lovely Project
 
+
+## Docker Quickstart
+
+This section provides basic instructions on how to run the application using Docker.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started)
+
+### Running the Application
+
+1. **Build the Docker Image**:
+   ```bash
+   docker build -t sampleapp:v1 .
+
+   docker run -p 8080:80 sampleapp:v1
+   ```
+2. How to open it up ?
+    ```
+    http://localhost:8080/docs 
+    ```
+
 ## Setting Up the Project Environment
 ### Prerequisites
 
@@ -11,6 +33,17 @@
 - custom package can be installed via `pip install lovely-pancake`
 - hosing.csv file stored in Azure Blob Storage. Use `dvc pull` to get it (sas token will get disabled on 01/04/2024)
 - execute the pipeline `kedro run` 
+
+## Building and running docker container
+- navigate to main folder of the project
+- use command `docker build -t my_lovely_pancake .`
+- if you already build the container use `docker run` instead
+
+## Runing the docker compose
+In main directory of the project
+-  use command `docker compose up --build` when running docer for the first time
+- use command `docker compose up` with docker image already built
+Than to test if everything is working check the fastAPI at `127.0.0.1:8000/docs`
 
 ## RestAPI Endpoint
 - navigate to restAPI folder `cd src/fastAPI/`
