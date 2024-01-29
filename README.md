@@ -79,6 +79,18 @@ curl -X 'POST' \
 }'
 ```
 
+## 🌟 The Team Behind the Magic
+
+This project was brought to life by a dynamic team:
+
+- Altunkanat Gokce (s22257)
+- Duzduran Ahmet (s21364)
+- Furmańczyk Jagoda (s22409)
+- Kazubski Dawid (s22722)
+
+Each member played a crucial role in weaving the fabric of "My Lovely Project," bringing unique perspectives and expertise to the table.
+
+
 
 ## Rules and guidelines
 
